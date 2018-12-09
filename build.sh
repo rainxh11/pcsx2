@@ -17,7 +17,7 @@
 #set -e # This terminates the script in case of any error
 
 # Function declarations
-check_for_darwin()
+set_ncpu_toolfile()
 {
     if [ "$(uname -s)" = 'Darwin' ]; then
         ncpu="$(sysctl -n hw.ncpu)"
@@ -187,7 +187,7 @@ build="$root/build"
 coverity_dir="cov-int"
 coverity_result=pcsx2-coverity.xz
 
-check_for_darwin
+set_ncpu_toolfile
 set_make
 
 for ARG in "$@"; do
