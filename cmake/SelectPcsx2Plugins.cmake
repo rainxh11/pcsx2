@@ -88,203 +88,200 @@ endif()
 # be build.
 #-------------------------------------------------------------------------------
 
-#---------------------------------------
-#			CDVDnull
-#---------------------------------------
+#Check common dependencies first.
 if(GTKn_FOUND)
+
+    #Null Plugins
+
+    #---------------------------------------
+    #			CDVDnull
+    #---------------------------------------
     set(CDVDnull TRUE)
-endif()
-#---------------------------------------
+    #---------------------------------------
 
-#---------------------------------------
-#			cdvdGigaherz
-#---------------------------------------
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/cdvdGigaherz" OR NOT Linux)
-    set(cdvdGigaherz FALSE)
-elseif(Linux AND GTKn_FOUND AND LIBUDEV_FOUND)
-    set(cdvdGigaherz TRUE)
-else()
-    set(cdvdGigaherz FALSE)
-    print_dep("Skip build of cdvdGigaherz: missing dependencies" "${msg_dep_cdvdgiga}")
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			dev9null
-#---------------------------------------
-if(GTKn_FOUND)
+    #---------------------------------------
+    #			dev9null
+    #---------------------------------------
     set(dev9null TRUE)
-endif()
-#---------------------------------------
-#			dev9ghzdrk
-#---------------------------------------
-if(EXTRA_PLUGINS)
-    if(GTKn_FOUND AND PCAP_FOUND AND LIBXML2_FOUND)
-        set(dev9ghzdrk TRUE)
-        list(APPEND CMAKE_MODULE_PATH
-            ${CMAKE_MODULE_PATH}/macros)
-        include(GlibCompileResourcesSupport)
-    else()
-        set(dev9ghzdrk FALSE)
-        print_dep("Skip build of dev9ghzdrk: missing dependencies" "${msg_dep_dev}")
-    endif()
-endif()
-#---------------------------------------
+    #---------------------------------------
 
-#---------------------------------------
-#			FWnull
-#---------------------------------------
-if(GTKn_FOUND)
+    #---------------------------------------
+    #			FWnull
+    #---------------------------------------
     set(FWnull TRUE)
-endif()
-#---------------------------------------
+    #---------------------------------------
 
-#---------------------------------------
-#			GSnull
-#---------------------------------------
-if(GTKn_FOUND AND EXTRA_PLUGINS)
-    set(GSnull TRUE)
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			GSdx
-#---------------------------------------
-# requires: -OpenGL
-#           -PNG
-#           -X11
-#           -zlib
-#---------------------------------------
-if(OPENGL_FOUND AND X11_FOUND AND GTKn_FOUND AND ZLIB_FOUND AND PNG_FOUND AND FREETYPE_FOUND AND LIBLZMA_FOUND AND ((EGL_FOUND AND X11_XCB_FOUND) OR NOT EGL_API))
-    set(GSdx TRUE)
-elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/GSdx")
-    set(GSdx FALSE)
-else()
-    set(GSdx FALSE)
-    print_dep("Skip build of GSdx: missing dependencies" "${msg_dep_gsdx}")
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			zerogs
-#---------------------------------------
-# requires:	-GLEW
-#			-OpenGL
-#			-X11
-#			-CG
-#---------------------------------------
-if(EXTRA_PLUGINS)
-    if(GLEW_FOUND AND OPENGL_FOUND AND X11_FOUND AND CG_FOUND)
-        set(zerogs TRUE)
-    elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/zerogs")
-        set(zerogs FALSE)
-    else()
-        set(zerogs FALSE)
-        print_dep("Skip build of zerogs: missing dependencies" "${msg_dep_zerogs}")
-    endif()
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			zzogl-pg
-#---------------------------------------
-# requires:	-GLEW
-#			-OpenGL
-#			-X11
-#			-CG (only with cg build)
-#			-JPEG
-#           -common_libs
-#---------------------------------------
-if(EXTRA_PLUGINS)
-    if((GLEW_FOUND AND OPENGL_FOUND AND X11_FOUND AND JPEG_FOUND AND common_libs AND GTKn_FOUND) AND (CG_FOUND OR GLSL_API))
-        set(zzogl TRUE)
-    elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/zzogl-pg")
-        set(zzogl FALSE)
-    else()
-        set(zzogl FALSE)
-        print_dep("Skip build of zzogl: missing dependencies" "${msg_dep_zzogl}")
-    endif()
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			PadNull
-#---------------------------------------
-if(GTKn_FOUND AND EXTRA_PLUGINS)
-    set(PadNull TRUE)
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			LilyPad
-# requires: -X11
-#---------------------------------------
-# Not ready to be packaged
-if(EXTRA_PLUGINS OR NOT PACKAGE_MODE)
-    if(wxWidgets_FOUND AND Linux AND GTKn_FOUND AND X11_FOUND)
-        set(LilyPad TRUE)
-    endif()
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			onepad
-#---------------------------------------
-# requires: -SDL2
-#			-X11
-#---------------------------------------
-if(wxWidgets_FOUND AND GTKn_FOUND AND SDL2_FOUND AND X11_FOUND)
-	set(onepad TRUE)
-elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/onepad")
-	set(onepad FALSE)
-else()
-	set(onepad FALSE)
-    print_dep("Skip build of onepad: missing dependencies" "${msg_dep_onepad}")
-endif()
-
-# old version of the plugin that still support SDL1
-if(wxWidgets_FOUND AND GTKn_FOUND AND SDLn_FOUND AND X11_FOUND)
-	set(onepad_legacy TRUE)
-elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/onepad_legacy")
-	set(onepad_legacy FALSE)
-else()
-	set(onepad_legacy FALSE)
-    print_dep("Skip build of onepad_legacy: missing dependencies" "${msg_dep_onepad}")
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			SPU2null
-#---------------------------------------
-if(GTKn_FOUND AND EXTRA_PLUGINS)
-    set(SPU2null TRUE)
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			spu2-x
-#---------------------------------------
-# requires: -SoundTouch
-#			-ALSA
-#           -Portaudio
-#           -SDL
-#           -common_libs
-#---------------------------------------
-if((PORTAUDIO_FOUND AND SOUNDTOUCH_FOUND AND SDLn_FOUND AND common_libs)
-	AND ((Linux AND ALSA_FOUND) OR (UNIX AND NOT Linux)))
-	set(spu2-x TRUE)
-elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/spu2-x")
-	set(spu2-x FALSE)
-else()
-	set(spu2-x FALSE)
-    print_dep("Skip build of spu2-x: missing dependencies" "${msg_dep_spu2x}")
-endif()
-#---------------------------------------
-
-#---------------------------------------
-#			USBnull
-#---------------------------------------
-if(GTKn_FOUND)
+    #---------------------------------------
+    #			USBnull
+    #---------------------------------------
     set(USBnull TRUE)
+    #---------------------------------------
+
+    if( EXTRA_PLUGINS)
+        #---------------------------------------
+        #			GSnull
+        #---------------------------------------
+        set(GSnull TRUE)
+        #---------------------------------------
+
+        #---------------------------------------
+        #			PadNull
+        #---------------------------------------
+        set(PadNull TRUE)
+        #---------------------------------------
+
+        #---------------------------------------
+        #			SPU2null
+        #---------------------------------------
+        set(SPU2null TRUE)
+        #---------------------------------------
+    endif()
+
+    # Core Plugins
+    #---------------------------------------
+    #			cdvdGigaherz
+    #---------------------------------------
+    if(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/cdvdGigaherz" OR NOT Linux)
+        set(cdvdGigaherz FALSE)
+    elseif(Linux AND LIBUDEV_FOUND)
+        set(cdvdGigaherz TRUE)
+    else()
+        set(cdvdGigaherz FALSE)
+        print_dep("Skip build of cdvdGigaherz: missing dependencies" "${msg_dep_cdvdgiga}")
+    endif()
+    #---------------------------------------
+
+    #---------------------------------------
+    #			GSdx
+    #---------------------------------------
+    # requires: -OpenGL
+    #           -PNG
+    #           -X11
+    #           -zlib
+    #---------------------------------------
+    if(OPENGL_FOUND AND X11_FOUND AND ZLIB_FOUND AND PNG_FOUND AND FREETYPE_FOUND AND LIBLZMA_FOUND AND ((EGL_FOUND AND X11_XCB_FOUND) OR NOT EGL_API))
+        set(GSdx TRUE)
+    elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/GSdx")
+        set(GSdx FALSE)
+    else()
+        set(GSdx FALSE)
+        print_dep("Skip build of GSdx: missing dependencies" "${msg_dep_gsdx}")
+    endif()
+    #---------------------------------------
+
+    #---------------------------------------
+    #			onepad
+    #---------------------------------------
+    # requires: -SDL2
+    #			-X11
+    #---------------------------------------
+    if(wxWidgets_FOUND AND SDL2_FOUND AND X11_FOUND)
+        set(onepad TRUE)
+    elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/onepad")
+        set(onepad FALSE)
+    else()
+        set(onepad FALSE)
+        print_dep("Skip build of onepad: missing dependencies" "${msg_dep_onepad}")
+    endif()
+
+    # A version of the plugin that supports both SDL1 and SDL2, and manually mapping buttons.
+    if(wxWidgets_FOUND AND SDLn_FOUND AND X11_FOUND)
+        set(onepad_legacy TRUE)
+    elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/onepad_legacy")
+        set(onepad_legacy FALSE)
+    else()
+        set(onepad_legacy FALSE)
+        print_dep("Skip build of onepad_legacy: missing dependencies" "${msg_dep_onepad}")
+    endif()
+    #---------------------------------------
+
+    #---------------------------------------
+    #			spu2-x
+    #---------------------------------------
+    # requires: -SoundTouch
+    #			-ALSA
+    #           -Portaudio
+    #           -SDL
+    #           -common_libs
+    #---------------------------------------
+    if((PORTAUDIO_FOUND AND SOUNDTOUCH_FOUND AND SDLn_FOUND AND common_libs)
+        AND ((Linux AND ALSA_FOUND) OR (UNIX AND NOT Linux)))
+        set(spu2-x TRUE)
+    elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/spu2-x")
+        set(spu2-x FALSE)
+    else()
+        set(spu2-x FALSE)
+        print_dep("Skip build of spu2-x: missing dependencies" "${msg_dep_spu2x}")
+    endif()
+    #---------------------------------------
+
+    # Extra plugins
+    if(EXTRA_PLUGINS)
+        #---------------------------------------
+        #			dev9ghzdrk
+        #---------------------------------------
+        if(PCAP_FOUND AND LIBXML2_FOUND)
+            set(dev9ghzdrk TRUE)
+            list(APPEND CMAKE_MODULE_PATH
+                ${CMAKE_MODULE_PATH}/macros)
+                include(GlibCompileResourcesSupport)
+            else()
+                set(dev9ghzdrk FALSE)
+                print_dep("Skip build of dev9ghzdrk: missing dependencies" "${msg_dep_dev}")
+        endif()
+        #---------------------------------------
+
+        #---------------------------------------
+        #			zerogs
+        #---------------------------------------
+        # requires:	-GLEW
+        #			-OpenGL
+        #			-X11
+        #			-CG
+        #---------------------------------------
+        if(GLEW_FOUND AND OPENGL_FOUND AND X11_FOUND AND CG_FOUND)
+            set(zerogs TRUE)
+        elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/zerogs")
+            set(zerogs FALSE)
+        else()
+            set(zerogs FALSE)
+            print_dep("Skip build of zerogs: missing dependencies" "${msg_dep_zerogs}")
+        endif()
+        #---------------------------------------
+
+        #---------------------------------------
+        #			zzogl-pg
+        #---------------------------------------
+        # requires:	-GLEW
+        #			-OpenGL
+        #			-X11
+        #			-CG (only with cg build)
+        #			-JPEG
+        #           -common_libs
+        #---------------------------------------
+        if((GLEW_FOUND AND OPENGL_FOUND AND X11_FOUND AND JPEG_FOUND AND common_libs) AND (CG_FOUND OR GLSL_API))
+            set(zzogl TRUE)
+        elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/plugins/zzogl-pg")
+            set(zzogl FALSE)
+        else()
+            set(zzogl FALSE)
+            print_dep("Skip build of zzogl: missing dependencies" "${msg_dep_zzogl}")
+        endif()
+        #---------------------------------------
+
+        #---------------------------------------
+        #			LilyPad
+        # requires: -X11
+        #---------------------------------------
+        # Not ready to be packaged
+        if(NOT PACKAGE_MODE)
+            if(wxWidgets_FOUND AND X11_FOUND)
+                set(LilyPad TRUE)
+            endif()
+        endif()
+        #---------------------------------------
+    endif() # Extra plugins
+
+else()
+    print_dep("Skipping build of all plugins. Gtk missing")
 endif()
-#---------------------------------------
