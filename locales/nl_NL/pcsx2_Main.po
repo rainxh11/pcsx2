@@ -1,4 +1,4 @@
-# Translations for PCSX2 (Main).
+# PCSX2 Translation files
 # Copyright (C) 2018 PCSX2 Dev Team
 # This file is distributed under the same license as the PCSX2 package.
 # First author: mourix, 2018
